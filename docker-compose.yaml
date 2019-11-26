@@ -1,0 +1,26 @@
+version: '3'
+
+volumes:
+  mariadb-wordpress:
+
+services:
+  php-apache:
+    image: php-apache
+    ports:
+    - 8077:80
+    volumes:
+    - ./DocumentRoot:/var/www/html
+    links:
+    - mariadb
+
+  mariadb:
+    image: mariadb:10.3
+    volumes:
+    - mariadb-wordpress:/var/lib/mysql
+    environment:
+      TZ: "Europe/Madrid"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_ROOT_PASSWORD: "S3crEt"
+      MYSQL_USER: 'wordpress'
+      MYSQL_PASSWORD: 'S3crEt'
+      MYSQL_DATABASE: 'wordpress'
